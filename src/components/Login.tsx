@@ -6,7 +6,7 @@ import { useObserver } from 'mobx-react-lite';
 import { when } from 'mobx';
 
 export const Login = (props: RootStackProps<AppRoute.LOGIN>) => {
-    const loginStore = useStores();
+    const { loginStore } = useStores();
 
     const goToProfile = () =>
         props.navigation.navigate(AppRoute.PROFILE, {
