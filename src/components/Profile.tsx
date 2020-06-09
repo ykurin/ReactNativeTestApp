@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { AppRoute, RootStackProps } from '../Route';
 
-export function Profile(props: RootStackProps<AppRoute.PROFILE>) {
+export const Profile = (props: RootStackProps<AppRoute.PROFILE>) => {
     return (
         <View style={styles.container}>
             <Text>
@@ -11,7 +11,7 @@ export function Profile(props: RootStackProps<AppRoute.PROFILE>) {
             </Text>
         </View>
     );
-}
+};
 
 const styles = StyleSheet.create({
     container: {
