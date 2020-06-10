@@ -1,34 +1,37 @@
 import React from 'react';
 import { View, Text, StyleSheet, Button, TextInput } from 'react-native';
 import { AppRoute, RootStackProps } from '../Route';
-import { useStores } from '../hooks/useStores';
-import { useObserver } from 'mobx-react-lite';
-import { when } from 'mobx';
+import { useSelector, useDispatch } from 'react-redux';
+import { setUsername, loginUser } from '../stores/login/Actions';
+import { LoginState } from '../stores/login/Types';
 
 export const Login = (props: RootStackProps<AppRoute.LOGIN>) => {
-    const { loginStore } = useStores();
+    const userName = useSelector((state: LoginState) => state.userName);
+    const inProgress = useSelector((state: LoginState) => state.inProgress);
+    const isLoggedIn = useSelector((state: LoginState) => state.isLoggedIn);
 
-    const goToProfile = () =>
+    const dispatch = useDispatch();
+
+    if (isLoggedIn) {
         props.navigation.navigate(AppRoute.PROFILE, {
-            userId: loginStore.userName,
+            userId: userName,
         });
+    }
 
-    when(() => loginStore.isLoggedIn, goToProfile);
-
-    return useObserver(() => (
+    return (
         <View style={styles.container}>
             <Text>THIS IS LOGIN SCREEN!</Text>
             <TextInput
                 style={{ height: 40 }}
                 placeholder="Enter USER NAME"
-                onChangeText={(text) => loginStore.setUserName(text)}
+                onChangeText={(text) => dispatch(setUsername(text))}
             />
-            <Text>Entered Username: {loginStore.userName}</Text>
-            {!loginStore.inProgress && !loginStore.isLoggedIn && (
-                <Button title="LOGIN" onPress={() => loginStore.loginUser()} />
+            <Text>Entered Username: {userName}</Text>
+            {!inProgress && !isLoggedIn && (
+                <Button title="LOGIN" onPress={() => dispatch(loginUser())} />
             )}
         </View>
-    ));
+    );
 };
 
 const styles = StyleSheet.create({
