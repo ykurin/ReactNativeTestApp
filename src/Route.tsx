@@ -2,13 +2,13 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 
 export enum AppRoute {
-    LOGIN = 'LOGIN',
+    SIGN_IN = 'SIGN_IN',
     PROFILE = 'PROFILE',
 }
 
 export type RootStackParamList = {
-    [AppRoute.LOGIN]: undefined;
-    [AppRoute.PROFILE]: { userId: string };
+    [AppRoute.SIGN_IN]: undefined;
+    [AppRoute.PROFILE]: undefined;
 };
 
 // export class RootStackComponent<
