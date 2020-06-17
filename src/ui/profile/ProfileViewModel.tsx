@@ -1,21 +1,21 @@
-import { AuthStore } from '../../stores/AuthStore';
+import { AuthManager } from '../../managers/AuthManager';
 import { action, computed, decorate } from 'mobx';
 
 export class ProfileViewModel {
-    private authStore: AuthStore;
+    private authManager: AuthManager;
 
-    constructor(authStore: AuthStore) {
-        this.authStore = authStore;
+    constructor(authManager: AuthManager) {
+        this.authManager = authManager;
     }
 
-    get userName() {
-        return this.authStore.userName;
+    get welcomeMessage() {
+        return 'welcome to the profile screen!';
     }
 
-    signOut = () => this.authStore.signOut();
+    signOut = () => this.authManager.signOut();
 }
 
 decorate(ProfileViewModel, {
-    userName: computed,
+    welcomeMessage: computed,
     signOut: action.bound,
 });

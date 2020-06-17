@@ -1,15 +1,16 @@
 import { observable, action, decorate, computed } from 'mobx';
-import { AuthService } from '../../services/AuthService';
-import { AuthStore } from '../../stores/AuthStore';
+import { AuthManager } from '../../managers/AuthManager';
 
 export class SignInViewModel {
-    private authStore: AuthStore;
+    private authManager: AuthManager;
 
-    constructor(authStore: AuthStore) {
-        this.authStore = authStore;
+    constructor(authManager: AuthManager) {
+        this.authManager = authManager;
     }
 
     userName = '';
+
+    password = '';
 
     inProgress = false;
 
@@ -20,42 +21,44 @@ export class SignInViewModel {
     }
 
     get signInButtonDisabled() {
-        return this.userName === '';
+        return this.userName === '' || this.password === '';
     }
 
     setUserName(userName: string) {
         this.userName = userName;
     }
 
-    signInUser() {
-        this.inProgress = true;
-        return AuthService.sendLoginRequest()
-            .then(() => {
-                this.inProgress = false;
-                this.isLoggedIn = true;
-                this.authStore.signIn(this.userName);
-            })
-            .catch(() => {
-                this.inProgress = false;
-            });
+    setPassword(password: string) {
+        this.password = password;
     }
 
-    isTokenLoaded = false;
+    async signInUser() {
+        this.inProgress = true;
+        const isSignedIn = await this.authManager.signIn(
+            this.userName,
+            this.password,
+        );
+        this.inProgress = false;
+        this.isLoggedIn = isSignedIn;
+    }
 
-    loadToken() {
-        setTimeout(() => {
-            this.isTokenLoaded = true;
-        }, 3000);
+    isTokenChecked = false;
+
+    async checkToken() {
+        await this.authManager.checkToken();
+        this.isTokenChecked = true;
     }
 }
 decorate(SignInViewModel, {
     userName: observable,
+    password: observable,
     inProgress: observable,
     isLoggedIn: observable,
     setUserName: action.bound,
+    setPassword: action.bound,
     signInUser: action.bound,
     showLoginButton: computed,
     signInButtonDisabled: computed,
-    isTokenLoaded: observable,
-    loadToken: action,
+    isTokenChecked: observable,
+    checkToken: action,
 });

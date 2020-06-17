@@ -11,8 +11,7 @@ export const ProfileView = (props: RootStackProps<AppRoute.PROFILE>) => {
 
     return useObserver(() => (
         <View style={styles.container}>
-            <Text>PROFILE SCREEN!</Text>
-            <Text>Username: {profileViewModel.userName}</Text>
+            <Text>{profileViewModel.welcomeMessage}</Text>
             <Button title="Sign Out" onPress={profileViewModel.signOut} />
         </View>
     ));

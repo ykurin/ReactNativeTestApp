@@ -10,11 +10,11 @@ import { InjectionUtils } from './InjectionUtils';
 const Stack = createStackNavigator<RootStackParamList>();
 
 export const AppNavigator = () => {
-    const authStore = InjectionUtils.getAuthStore();
+    const authManager = InjectionUtils.getAuthManager();
     return useObserver(() => (
         <NavigationContainer>
             <Stack.Navigator>
-                {!authStore.isSighedId ? (
+                {!authManager.isSighedId ? (
                     <>
                         <Stack.Screen
                             name={AppRoute.SIGN_IN}
