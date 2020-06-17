@@ -15,16 +15,20 @@ export const AppNavigator = () => {
         <NavigationContainer>
             <Stack.Navigator>
                 {!authStore.isSighedId ? (
-                    <Stack.Screen
-                        name={AppRoute.SIGN_IN}
-                        component={SignInView}
-                        options={{ title: 'Login' }}
-                    />
+                    <>
+                        <Stack.Screen
+                            name={AppRoute.SIGN_IN}
+                            component={SignInView}
+                            options={{ title: 'Sign In' }}
+                        />
+                    </>
                 ) : (
-                    <Stack.Screen
-                        name={AppRoute.PROFILE}
-                        component={ProfileView}
-                    />
+                    <>
+                        <Stack.Screen
+                            name={AppRoute.PROFILE}
+                            component={ProfileView}
+                        />
+                    </>
                 )}
             </Stack.Navigator>
         </NavigationContainer>

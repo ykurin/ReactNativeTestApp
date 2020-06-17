@@ -1,5 +1,5 @@
 import { AuthStore } from '../../stores/AuthStore';
-import { action, computed, decorate, observable } from 'mobx';
+import { action, computed, decorate } from 'mobx';
 
 export class ProfileViewModel {
     private authStore: AuthStore;

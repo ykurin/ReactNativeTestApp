@@ -19,7 +19,7 @@ export class SignInViewModel {
         return !this.inProgress && !this.isLoggedIn;
     }
 
-    get SignInButtonDisabled() {
+    get signInButtonDisabled() {
         return this.userName === '';
     }
 
@@ -39,6 +39,14 @@ export class SignInViewModel {
                 this.inProgress = false;
             });
     }
+
+    isTokenLoaded = false;
+
+    loadToken() {
+        setTimeout(() => {
+            this.isTokenLoaded = true;
+        }, 3000);
+    }
 }
 decorate(SignInViewModel, {
     userName: observable,
@@ -47,5 +55,7 @@ decorate(SignInViewModel, {
     setUserName: action.bound,
     signInUser: action.bound,
     showLoginButton: computed,
-    SignInButtonDisabled: computed,
+    signInButtonDisabled: computed,
+    isTokenLoaded: observable,
+    loadToken: action,
 });
