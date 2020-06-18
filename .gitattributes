@@ -12,8 +12,11 @@
 .gitconfig text
 .gitmodules text
 
-##### Windows
-*.bat text eol=crlf
+##### Source code
+*.bat           text eol=crlf
+*.js            text eol=lf
+*.ts            text eol=lf
+*.tsx           text eol=lf
 
 # These files are text and should be normalized (Convert crlf => lf)
 *.java          text
