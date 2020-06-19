@@ -1,13 +1,13 @@
 import { action, decorate, observable } from 'mobx';
-import AsyncStorage from '@react-native-community/async-storage';
 import { AuthenticationService } from '../../services/authentication/AuthenticationService';
+import * as Keychain from 'react-native-keychain';
 
 const TOKEN_KEY = 'token';
 
 export class AuthenticationManager {
     isSighedId = false;
 
-    token = '';
+    token: string | null = null;
 
     authService: AuthenticationService;
 
@@ -16,26 +16,27 @@ export class AuthenticationManager {
     }
 
     async signIn(username: string, password: string) {
-        const token = await this.authService.sendLoginRequest(
+        this.token = await this.authService.sendLoginRequest(
             username,
             password,
         );
-        await AsyncStorage.setItem(TOKEN_KEY, token);
+        await Keychain.setGenericPassword(TOKEN_KEY, this.token);
         this.isSighedId = true;
         return true;
     }
 
     async signOut() {
-        await AsyncStorage.removeItem(TOKEN_KEY);
+        await Keychain.resetGenericPassword();
+        this.token = null;
         this.isSighedId = false;
     }
 
     async checkToken() {
-        const token = await AsyncStorage.getItem(TOKEN_KEY);
-        const isTokenExists = token !== null;
-        if (isTokenExists) {
-            this.token = token!;
+        const credentials = await Keychain.getGenericPassword();
+        if (credentials) {
+            this.token = credentials.password;
         }
+        const isTokenExists = this.token !== null;
         this.isSighedId = isTokenExists;
         return isTokenExists;
     }
