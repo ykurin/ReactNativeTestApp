@@ -1,10 +1,10 @@
 import { observable, action, decorate, computed } from 'mobx';
-import { AuthManager } from '../../managers/AuthManager';
+import { AuthenticationManager } from '../../managers/authentication/AuthenticationManager';
 
 export class SignInViewModel {
-    private authManager: AuthManager;
+    private authManager: AuthenticationManager;
 
-    constructor(authManager: AuthManager) {
+    constructor(authManager: AuthenticationManager) {
         this.authManager = authManager;
     }
 

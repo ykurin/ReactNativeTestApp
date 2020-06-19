@@ -1,10 +1,10 @@
-import { AuthManager } from '../../managers/AuthManager';
+import { AuthenticationManager } from '../../managers/authentication/AuthenticationManager';
 import { action, computed, decorate } from 'mobx';
 
 export class ProfileViewModel {
-    private authManager: AuthManager;
+    private authManager: AuthenticationManager;
 
-    constructor(authManager: AuthManager) {
+    constructor(authManager: AuthenticationManager) {
         this.authManager = authManager;
     }
 
