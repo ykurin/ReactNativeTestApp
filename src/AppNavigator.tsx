@@ -13,7 +13,10 @@ export const AppNavigator = () => {
     const authManager = InjectionUtils.getAuthManager();
     return useObserver(() => (
         <NavigationContainer>
-            <Stack.Navigator>
+            <Stack.Navigator
+                screenOptions={{
+                    headerShown: false,
+                }}>
                 {!authManager.isSighedId ? (
                     <>
                         <Stack.Screen

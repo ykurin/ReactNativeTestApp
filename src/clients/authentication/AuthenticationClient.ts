@@ -1,13 +1,19 @@
 import { TokenResponseDto } from './dto/TokenResponseDto';
+import { BaseClient } from '../BaseClient';
 
-export class AuthenticationClient {
-    async sendLoginRequest(
+export class AuthenticationClient extends BaseClient {
+    constructor() {
+        super('https://postman-echo.com');
+    }
+
+    sendLoginRequest(
         username: string,
         password: string,
     ): Promise<TokenResponseDto> {
-        const response = await fetch(
-            'https://postman-echo.com/get?token=hardcodedToken',
-        );
-        return await response.json();
+        return this.get<TokenResponseDto>('/get', {
+            params: {
+                token: 'hardcodedToken',
+            },
+        });
     }
 }

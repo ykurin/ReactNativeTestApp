@@ -14,10 +14,8 @@ export class SignInViewModel {
 
     inProgress = false;
 
-    isLoggedIn = false;
-
     get showLoginButton() {
-        return !this.inProgress && !this.isLoggedIn;
+        return !this.inProgress && !this.authManager.isSighedId;
     }
 
     get signInButtonDisabled() {
@@ -34,12 +32,8 @@ export class SignInViewModel {
 
     async signInUser() {
         this.inProgress = true;
-        const isSignedIn = await this.authManager.signIn(
-            this.userName,
-            this.password,
-        );
+        await this.authManager.signIn(this.userName, this.password);
         this.inProgress = false;
-        this.isLoggedIn = isSignedIn;
     }
 
     isTokenChecked = false;
@@ -53,7 +47,6 @@ decorate(SignInViewModel, {
     userName: observable,
     password: observable,
     inProgress: observable,
-    isLoggedIn: observable,
     setUserName: action.bound,
     setPassword: action.bound,
     signInUser: action.bound,
