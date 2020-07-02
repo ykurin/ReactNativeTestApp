@@ -1,11 +1,10 @@
-export class ServiceError implements Error {
-    message: string;
-    name: string;
-    stack?: string;
+import { ServiceErrorType } from './ServiceErrorType';
 
-    constructor(name: string = '', message: string = '', stack?: string) {
-        this.name = name;
-        this.message = message;
-        this.stack = stack;
+export class ServiceError extends Error {
+    errorType: ServiceErrorType;
+
+    constructor(errorType: ServiceErrorType) {
+        super(errorType);
+        this.errorType = errorType;
     }
 }

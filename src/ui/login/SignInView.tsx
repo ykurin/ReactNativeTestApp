@@ -28,7 +28,7 @@ export const SignInView = (props: RootStackProps<AppRoute.SIGN_IN>) => {
                 />
             ) : (
                 <>
-                    <Text>THIS IS SIGN IN SCREEN!</Text>
+                    <Text>THIS IS SIGN IN SCREEN! {signInViewModel.userName}</Text>
                     <View style={styles.view}>
                         <TextInput
                             style={styles.input3}

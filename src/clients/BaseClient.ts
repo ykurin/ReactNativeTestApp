@@ -39,19 +39,18 @@ export abstract class BaseClient {
         return response.data;
     }
 
-    private performRequest<T = any>(
+    private async performRequest<T = any>(
         config: AxiosRequestConfig,
     ): Promise<AxiosResponse<T>> {
         try {
-            return this.axiosInstance.request<T>(config);
+            return await this.axiosInstance.request<T>(config);
         } catch (e) {
+            console.log('performRequest error');
             throw BaseClient.handleError(e);
         }
     }
 
     private static handleError(error: AxiosError): Error {
-        console.log('Network Error');
-
         if (error.response) {
             // The request was made and the server responded with a status code
             // that falls out of the range of 2xx

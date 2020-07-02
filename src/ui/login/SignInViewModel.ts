@@ -1,10 +1,13 @@
 import { observable, action, decorate, computed } from 'mobx';
 import { AuthenticationManager } from '../../managers/authentication/AuthenticationManager';
+import { ServiceError } from '../../services/ServiceError';
+import { BaseViewModel } from '../BaseViewModel';
 
-export class SignInViewModel {
+export class SignInViewModel extends BaseViewModel {
     private authManager: AuthenticationManager;
 
     constructor(authManager: AuthenticationManager) {
+        super();
         this.authManager = authManager;
     }
 
@@ -13,6 +16,8 @@ export class SignInViewModel {
     password = '';
 
     inProgress = false;
+
+    isTokenChecked = false;
 
     get showLoginButton() {
         return !this.inProgress && !this.authManager.isSighedId;
@@ -32,11 +37,16 @@ export class SignInViewModel {
 
     async signInUser() {
         this.inProgress = true;
-        await this.authManager.signIn(this.userName, this.password);
-        this.inProgress = false;
+        try {
+            await this.authManager.signIn(this.userName, this.password);
+        } catch (e) {
+            const error = e as ServiceError;
+            // TODO show snack bar once
+            this.snackBarMessage = error.message;
+        } finally {
+            this.inProgress = false;
+        }
     }
-
-    isTokenChecked = false;
 
     async checkToken() {
         await this.authManager.checkToken();

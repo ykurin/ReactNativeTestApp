@@ -1,7 +1,6 @@
 import { action, decorate, observable } from 'mobx';
 import { AuthenticationService } from '../../services/authentication/AuthenticationService';
 import * as Keychain from 'react-native-keychain';
-import {ServiceError} from "../../services/ServiceError";
 
 const TOKEN_KEY = 'token';
 
@@ -25,9 +24,9 @@ export class AuthenticationManager {
             await Keychain.setGenericPassword(TOKEN_KEY, this.token);
             this.isSighedId = true;
         } catch (e) {
-            // Handle ServiceError
-            const serviceError = e as ServiceError;
+            this.token = null;
             this.isSighedId = false;
+            throw e;
         }
     }
 

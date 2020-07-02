@@ -1,5 +1,7 @@
 import { AuthenticationClient } from '../../clients/authentication/AuthenticationClient';
 import { ServiceError } from '../ServiceError';
+import { NetworkException } from '../../clients/exceptions/NetworkException';
+import { ServiceErrorType } from '../ServiceErrorType';
 
 export class AuthenticationService {
     authClient: AuthenticationClient;
@@ -19,8 +21,11 @@ export class AuthenticationService {
             );
             return response.args.token;
         } catch (e) {
-            // Handle client errors
-            throw new ServiceError();
+            if (e instanceof NetworkException) {
+                throw new ServiceError(ServiceErrorType.Network);
+            } else {
+                throw new ServiceError(ServiceErrorType.General);
+            }
         }
     }
 }
